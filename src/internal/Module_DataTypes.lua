@@ -489,7 +489,7 @@ General = {}
 General3D = {}
 
 ---@class GlobalClassesItems
----@field WoodSearchEngine2 WoodSearch
+---@field WoodSearchEngine2 unknown
 GlobalClassesItems = {}
 
 ---@class GlobalNonSaveItems
@@ -524,7 +524,7 @@ GlobalNonSaveItems = {}
 ---@field PermBuildingPresentOnLevel integer
 ---@field LevelInfo LevelInfo
 ---@field ThisLevelInfo ThisLevelInfo
----@field FogOfWar FogOfWar
+---@field FogOfWar unknown
 GlobalSaveItems = {}
 
 ---@class GuardAreaControl
@@ -815,7 +815,7 @@ PersonThingData = {}
 ---@class PersonWild
 ---@field NextOwner integer
 ---@field ProcessSummon integer
----@field SummonInfo WildSummonInfo[] length = 10
+---@field SummonInfo unknown[] length = 10
 ---@field TimeBeforeSummonable integer
 ---@field UnderInfluence integer
 PersonWild = {}
@@ -1098,13 +1098,13 @@ ThingPos = {}
 ---@field ObjectInfo ObjectThingInfo
 ---@field ObjFace ObjectFaceThing
 ---@field Pers Person
----@field Platform Platform
+---@field Platform unknown
 ---@field PreFight PreFight
 ---@field Scenery Scenery
 ---@field Shape Shape
 ---@field Shot ShotGeneral
 ---@field SoulConverter SoulConverter
----@field SoulMan SoulMan
+---@field SoulMan unknown
 ---@field Spell SpellGeneral
 ---@field SprCircles SpriteCircles
 ---@field TIDThing TIDThing
@@ -1122,11 +1122,11 @@ ThingTypeInfo = {}
 
 ---@class ThisLevelInfo
 ---@field Discoveries DiscoveryDescription[] length = 3
----@field PlayerThings PlayerThings[] length = 10
+---@field PlayerThings unknown[] length = 10
 ---@field Attribs ComputerAttributes[] length = 10
 ---@field Allies integer[] length = 10
----@field ScriptInfo ScriptInfo[] length = 10
----@field ObjectiveData ObjectiveDataV2
+---@field ScriptInfo unknown[] length = 10
+---@field ObjectiveData unknown
 ThisLevelInfo = {}
 
 ---@class Trigger
@@ -1164,7 +1164,7 @@ Trigger = {}
 ---@field NextNavRegenCount integer
 ---@field NumOccupants integer
 ---@field OccupantChangeCount integer
----@field Occupants VehicleOccupantInfo[] length = 12
+---@field Occupants unknown[] length = 12
 ---@field StuckAngleIncr integer
 ---@field StuckCount integer
 ---@field VerticalSpeed integer
@@ -1187,7 +1187,7 @@ Vehicle = {}
 VehicleTypeInfo = {}
 
 ---@class WoodDistribControl
----@field WoodDistribControl WDCItem[] length = 16
+---@field WoodDistribControl unknown[] length = 16
 WoodDistribControl = {}
 
 ---@class lists
