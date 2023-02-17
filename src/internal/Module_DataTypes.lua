@@ -861,7 +861,7 @@ Player = {}
 ---@field PlayerLists ObjectList[] length = 15
 PlayerContainer = {}
 
----@class PlayerThing
+---@class PlayerThings
 ---@field BuildingsAvailable integer
 ---@field BuildingsAvailableLevel integer
 ---@field BuildingsAvailableOnce integer
@@ -872,7 +872,7 @@ PlayerContainer = {}
 ---@field SpellsNotCharging integer
 ---@field TrainingManOff integer
 ---@field VehiclesAvailable integer
-PlayerThing = {}
+PlayerThings = {}
 
 ---@class Points3DWord
 ---@field WX integer
@@ -1122,7 +1122,7 @@ ThingTypeInfo = {}
 
 ---@class ThisLevelInfo
 ---@field Discoveries DiscoveryDescription[] length = 3
----@field PlayerThings unknown[] length = 10
+---@field PlayerThings PlayerThings[] length = 10
 ---@field Attribs ComputerAttributes[] length = 10
 ---@field Allies integer[] length = 10
 ---@field ScriptInfo unknown[] length = 10

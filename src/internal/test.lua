@@ -1,1 +1,18 @@
 import(Module_Commands)
+
+ATTACK(
+    TRIBE_RED,
+    TRIBE_YELLOW,
+    25,
+    ATTACK_BUILDING,
+    INT_NO_SPECIFIC_BUILDING,
+    999,
+    INT_NO_SPECIFIC_SPELL,
+    INT_NO_SPECIFIC_SPELL,
+    INT_NO_SPECIFIC_SPELL,
+    ATTACK_NORMAL,
+    0,
+    -1,
+    -1,
+    -1
+)
