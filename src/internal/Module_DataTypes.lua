@@ -821,7 +821,7 @@ PersonThingData = {}
 PersonWild = {}
 
 ---@class Player
----@field PlayerNum integer
+---@field PlayerNum integer Tribe
 ---@field StartNumPeople integer
 ---@field Mana integer
 ---@field NumPeople integer

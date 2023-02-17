@@ -392,6 +392,6 @@ function validate_any_return_fire_target(target) end
 function create_brave_person_thing(tribe, coords) end
 
 ---@param person Thing
----@param arg1 bool
+---@param arg1 boolean
 ---@param point Coord2D
 function person_goto_point(person, arg1, point) end
