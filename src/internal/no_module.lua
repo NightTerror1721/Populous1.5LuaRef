@@ -57,6 +57,21 @@ Module_StringTools = nil
 ---@type PopModule
 Module_System = nil
 
+---@type PopModule
+Module_Table = nil
+
+---@type PopModule
+Module_Package = nil
+
+---@type PopModule
+Module_Math = nil
+
+---@type PopModule
+Module_Shapes = nil
+
+---@type PopModule
+Module_String = nil
+
 ---@alias PopModule
 ---| `Module_Commands` #Commands Module
 ---| `Module_Control` #Control Module
@@ -77,6 +92,11 @@ Module_System = nil
 ---| `Module_Sound` #Sound Module
 ---| `Module_StringTools` #StringTools Module
 ---| `Module_System` #System Module
+---| `Module_Table` #Table Module
+---| `Module_Package` #Package Module
+---| `Module_Math` #Math Module
+---| `Module_Shapes` #Shapes Module
+---| `Module_String` #String Module
 
 
 ---Imports a Populous Lua Module

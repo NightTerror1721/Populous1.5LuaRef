@@ -386,7 +386,7 @@ CP_AT_TYPE_DEFEND_SHAMEN = (28)
 ---| `CP_AT_TYPE_DEFEND_SHAMEN`
 
 
----@alias BuildingModel
+---@alias InternalBuildingModel
 ---| `INT_TEPEE`
 ---| `INT_HUT`
 ---| `INT_FARM`
@@ -405,7 +405,7 @@ CP_AT_TYPE_DEFEND_SHAMEN = (28)
 ---| `INT_NO_SPECIFIC_BUILDING`
 
 
----@alias FollowerModel
+---@alias InternalFollowerModel
 ---| `INT_BRAVE`
 ---| `INT_WARRIOR`
 ---| `INT_RELIGIOUS`
@@ -415,7 +415,7 @@ CP_AT_TYPE_DEFEND_SHAMEN = (28)
 ---| `INT_NO_SPECIFIC_PERSON`
 
 
----@alias SpellModel
+---@alias InternalSpellModel
 ---| `INT_BURN`
 ---| `INT_BLAST`
 ---| `INT_LIGHTNING_BOLT`
@@ -754,11 +754,11 @@ function START_REINC_NOW(tribe) end
 ---@param target_tribe Tribe
 ---@param people integer
 ---@param target_type AttackTargetType
----@param target_model FollowerModel | BuildingModel
+---@param target_model InternalFollowerModel | InternalBuildingModel
 ---@param damage integer
----@param spell1 SpellModel
----@param spell2 SpellModel
----@param spell3 SpellModel
+---@param spell1 InternalSpellModel
+---@param spell2 InternalSpellModel
+---@param spell3 InternalSpellModel
 ---@param attack_type AttackType
 ---@param look_after integer|0|1
 ---@param marker1 integer
@@ -779,7 +779,7 @@ function SET_MARKER_ENTRY(tribe, entry, marker1, marker2, num_braves, num_warrio
 
 ---@param tribe Tribe
 ---@param entry integer
----@param spell SpellModel
+---@param spell InternalSpellModel
 ---@param min_mana integer
 ---@param frequency integer
 ---@param min_people integer
@@ -832,7 +832,7 @@ function EXTRA_WOOD_COLLECTION(on, tribe) end
 function SET_WOOD_COLLECTION_RADII(tribe, min, max, x, z) end
 
 ---@param tribe Tribe
----@param spell SpellModel
+---@param spell InternalSpellModel
 ---@param multiplier integer
 function SET_BUCKET_COUNT_FOR_SPELL(tribe, spell, multiplier) end
 
@@ -893,7 +893,7 @@ function OH_LOOK_PLAYER_HAS_JUST_KILLED_HIS_FIRST_GHOST(tribe) end
 ---@param tribe Tribe
 ---@param tribe_target Tribe
 ---@param target_type AttackTargetType
----@param target_model FollowerModel | BuildingModel
+---@param target_model InternalFollowerModel | InternalBuildingModel
 ---@param remember integer
 ---@return integer
 function NAV_CHECK(tribe, tribe_target, target_type, target_model, remember) end
@@ -912,7 +912,7 @@ function CLEAR_STANDING_PEOPLE(tribe) end
 function CLEAR_GUARDING_FROM(tribe, marker1, marker2, marker3, marker4) end
 
 ---@param tribe Tribe
----@param building_model BuildingModel
+---@param building_model InternalBuildingModel
 ---@param x integer
 ---@param z integer
 ---@param radius integer
@@ -942,18 +942,18 @@ function PRAY_AT_HEAD(tribe, num_people, marker) end
 
 ---@param tribe Tribe
 ---@param type integer
----@param model SpellModel | BuildingModel
+---@param model InternalSpellModel | InternalBuildingModel
 function I_HAVE_ONE_SHOT(tribe, type, model) end
 
 ---@param tribe Tribe
----@param person_type FollowerModel
+---@param person_type InternalFollowerModel
 ---@param x integer
 ---@param z integer
 function PUT_PERSON_IN_DT(tribe, person_type, x, z) end
 
 ---@param tribe Tribe
 ---@param num_people integer
----@param people_type FollowerModel
+---@param people_type InternalFollowerModel
 function TRAIN_PEOPLE_NOW(tribe, num_people, people_type) end
 
 ---@param tribe Tribe
@@ -985,12 +985,12 @@ function CONVERT_AT_MARKER(tribe, marker) end
 function PREACH_AT_MARKER(tribe, marker) end
 
 ---@param tribe Tribe
----@param spell SpellModel
+---@param spell InternalSpellModel
 ---@return integer
 function GET_SPELLS_CAST(tribe, spell) end
 
 ---@param tribe Tribe
----@param spell SpellModel
+---@param spell InternalSpellModel
 ---@return integer
 function GET_NUM_ONE_OFF_SPELLS(tribe, spell) end
 
@@ -1058,17 +1058,17 @@ function DONT_TARGET_S_WARRIORS(tribe) end
 function TARGET_S_WARRIORS(tribe) end
 
 ---@param tribe Tribe
----@param type FollowerModel
+---@param type InternalFollowerModel
 ---@return integer
 function PLAYERS_PEOPLE_OF_TYPE(tribe, type) end
 
 ---@param tribe Tribe
----@param type BuildingModel
+---@param type InternalBuildingModel
 ---@return integer
 function PLAYERS_BUILDING_OF_TYPE(tribe, type) end
 
 ---@param tribe Tribe
----@param type BuildingModel
+---@param type InternalBuildingModel
 ---@return integer
 function PLAYERS_ALL_BUILDING_OF_TYPE(tribe, type) end
 
@@ -1077,7 +1077,7 @@ function PLAYERS_ALL_BUILDING_OF_TYPE(tribe, type) end
 ---@return integer
 function PLAYERS_VEHICLE_OF_TYPE(tribe, type) end
 
----@param spell SpellModel
+---@param spell InternalSpellModel
 ---@return integer
 function SPELL_COST(spell) end
 

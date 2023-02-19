@@ -15,45 +15,45 @@ function MAP_ELEM_PTR_2_IDX(elem) end
 function ensure_point_on_ground(coords) end
 
 ---@param coords Coord2D
----@return boolean
+---@return integer
 function is_map_point_land(coords) end
 
 ---@param x integer
 ---@param z integer
 ---@param direction integer
----@return boolean
+---@return integer
 function is_sub_cell_walkable_in_direction(x, z, direction) end
 
 ---@param cell integer
 ---@param player integer
----@return boolean
+---@return integer
 function is_map_cell_a_building_belonging_to_player(cell, player) end
 
 ---@param arg0 integer
 ---@param arg1 integer
 ---@param arg2 integer
----@return boolean
+---@return integer
 function is_map_cell_n_squares_away_from_other_owned_building(arg0, arg1, arg2) end
 
 ---@param cell integer
----@return boolean
+---@return integer
 function is_map_cell_flat_and_land(cell) end
 
 ---@param cell integer
----@return boolean
+---@return integer
 function is_map_cell_flat(cell) end
 
 ---@param cell integer
----@return boolean
+---@return integer
 function is_map_cell_land(cell) end
 
 ---@param coords Coord2D
----@return boolean
+---@return integer
 function is_map_point_sea(coords) end
 
 ---@param cell integer
 ---@param arg1 integer
----@return boolean
+---@return integer
 function is_map_cell_near_coast(cell, arg1) end
 
 ---@param player Player
@@ -62,31 +62,31 @@ function is_map_cell_near_coast(cell, arg1) end
 ---@param arg3 integer
 ---@param arg4 integer
 ---@param arg5 integer
----@return boolean
+---@return integer
 function is_map_cell_bldg_markable(player, cell, arg2, arg3, arg4, arg5) end
 
 ---@param cell integer
 ---@param arg1 integer
 ---@param arg2 integer
----@return boolean
+---@return integer
 function is_cell_markable_with_near_bldgs_and_markers(cell, arg1, arg2) end
 
 ---@param elemList unknown
 ---@param arg1 integer
----@return boolean
+---@return integer
 function are_list_map_elems_flat(elemList, arg1) end
 
 ---@param arg0 integer
 ---@param arg1 integer
----@return boolean
+---@return integer
 function are_surround_cells_too_steep_for_building(arg0, arg1) end
 
 ---@param arg0 integer
----@return boolean
+---@return integer
 function are_surround_cells_too_steep_for_wall(arg0) end
 
 ---@param arg0 integer
----@return boolean
+---@return integer
 function are_surround_cells_all_land(arg0) end
 
 ---@param coords1 Coord3D
@@ -250,35 +250,35 @@ function set_map_elem_collide_table_idx(elem, idx) end
 
 ---@param elem MapElement
 ---@param player integer
----@return boolean
+---@return integer
 function is_map_elem_warrior_in_drum_tower_flag_set_for_player(elem, player) end
 
 ---@param elem MapElement
----@return boolean
+---@return integer
 function is_map_elem_coast(elem) end
 
 ---@param elem MapElement
----@return boolean
+---@return integer
 function is_map_elem_all_land(elem) end
 
 ---@param elem MapElement
----@return boolean
+---@return integer
 function is_map_elem_all_sea(elem) end
 
 ---@param elem MapElement
----@return boolean
+---@return integer
 function is_map_elem_all_grass(elem) end
 
 ---@param elem MapElement
----@return boolean
+---@return integer
 function is_map_elem_sea_or_coast(elem) end
 
 ---@param elem MapElement
----@return boolean
+---@return integer
 function is_map_elem_land_or_coast(elem) end
 
 ---@param coords Coord2D
----@return boolean
+---@return integer
 function is_coord2d_at_cell_centre(coords) end
 
 ---@param coords Coord2D
@@ -297,7 +297,7 @@ function randomize_coord_on_block(coords) end
 function zero_coord3d_on_block(coords) end
 
 ---@param cell integer
----@return boolean
+---@return integer
 function is_building_on_map_cell(cell) end
 
 ---@param thing Thing
@@ -307,35 +307,35 @@ function ensure_thing_on_ground(thing) end
 function ensure_point_above_ground(coords) end
 
 ---@param cell integer
----@return boolean
+---@return integer
 function is_map_cell_obstacle_free(cell) end
 
 ---@param thing Thing
----@return boolean
+---@return integer
 function is_thing_on_ground(thing) end
 
 ---@param coords Coord3D
----@return boolean
+---@return integer
 function is_coord_on_ground(coords) end
 
 ---@param coords Coord2D
 ---@param thing Thing
----@return boolean
+---@return integer
 function is_point_too_steep_for_moving_thing(coords, thing) end
 
 ---@param coords Coord2D
 ---@param arg1 integer
----@return boolean
+---@return integer
 function is_point_steeper_than(coords, arg1) end
 
 ---@param cell integer
 ---@param arg1 integer
----@return boolean
+---@return integer
 function is_cell_too_steep_for_building(cell, arg1) end
 
 ---@param cell integer
 ---@param arg1 integer
----@return boolean
+---@return integer
 function is_cell_too_steep_for_building_destroy(cell, arg1) end
 
 ---@param srcCoords Coord2D
@@ -378,7 +378,7 @@ function get_jnav_thing_start_and_end_points(thing, waypoint1, waypoint2) end
 
 ---@param coords1 Coord2D
 ---@param coords2 Coord2D
----@return boolean
+---@return integer
 function are_coords_on_same_map_cell(coords1, coords2) end
 
 ---@param elem MapElement

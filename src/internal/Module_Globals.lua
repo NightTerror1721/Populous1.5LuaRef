@@ -1,35 +1,35 @@
 ---@meta
 
 
----@type GlobalSaveItems
-gsi = nil
+---@return GlobalSaveItems
+function gsi() end
 
----@type GlobalNonSaveItems
-gnsi = nil
+---@return GlobalNonSaveItems
+function gnsi() end
 
----@type GlobalClassesItems
-gci = nil
+---@return GlobalClassesItems
+function gci() end
 
----@type P3Constants
-constants = nil
+---@return P3Constants
+function constants() end
 
----@type PeopleTypeInfo
-people_type_info = nil
+---@return PeopleTypeInfo
+function people_type_info() end
 
----@type ThingTypeInfo
-thing_type_info = nil
+---@return ThingTypeInfo
+function thing_type_info() end
 
----@type SpellsTypeInfo
-spells_type_info = nil
+---@return SpellsTypeInfo
+function spells_type_info() end
 
----@type BuildingTypeInfo
-building_type_info = nil
+---@return BuildingTypeInfo
+function building_type_info() end
 
----@type VehicleTypeInfo
-vehicle_type_info = nil
+---@return VehicleTypeInfo
+function vehicle_type_info() end
 
----@type SceneryTypeInfo
-scenery_type_info = nil
+---@return SceneryTypeInfo
+function scenery_type_info() end
 
----@type ThingDrawTableInfo
-thing_draw_info = nil
+---@return ThingDrawTableInfo
+function thing_draw_info() end
