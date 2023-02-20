@@ -576,7 +576,10 @@ MapElement = {}
 ---@class MapPosXZ
 ---@field Pos integer
 ---@field XZ PosAsXZ
-MapPosXZ = {}
+MapPosXZ = {
+    ---@return MapPosXZ
+    new = function() end
+}
 
 ---@class MedManAttract
 ---@field BeaconIdx ObjectProxy
@@ -1047,7 +1050,7 @@ TbSprite = {}
 ---@class Thing
 ---@field Type integer
 ---@field Model integer
----@field Owner integer
+---@field Owner Tribe
 ---@field TimeSlice integer
 ---@field ThingNum integer
 ---@field AngleXZ integer

@@ -21,9 +21,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]--
 
+if __DEFINED_KRAMPUS1721_INCLUDES_SPELLS then return end
+__DEFINED_KRAMPUS1721_INCLUDES_SPELLS = true
+
+import(Module_System)
 import(Module_Math)
 include("includes/flags.lua")
-include("includes/objects.lua")
+include("includes/coords.lua")
+include("includes/things.lua")
 
 
 local _gsi = gsi()
@@ -38,11 +43,11 @@ end
 ---@field tribe Tribe
 ---@field model integer
 ---@field private TribesSpells SpellInfo[][]
----@field Count 22
+---@field Count SpellModel.COUNT
 SpellInfo = {}
 SpellInfo.__index = SpellInfo
 
-SpellInfo.Count = 22
+SpellInfo.Count = SpellModel.COUNT
 
 ---@param tribe Tribe
 ---@param spell SpellModel
@@ -111,6 +116,12 @@ end
 
 function SpellInfo:isLevelEnabled()
     return Flags.isBitSet(GetPlayerThings(self.tribe).SpellsAvailableLevel, self.model)
+end
+
+---@param coords AnyCoord
+---@return Thing
+function SpellInfo:cast(coords)
+    return _G.CreateSpell(self.model, self.tribe, Coord.to3D(coords))
 end
 
 

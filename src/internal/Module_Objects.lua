@@ -52,19 +52,19 @@ function GetThing(idx) end
 ---@return Thing
 function findWood(thing) end
 
----@param arg0 integer
+---@param thing_type integer
 ---@param callback fun(thing: Thing): boolean
 ---@return Thing
-function ProcessGlobalTypeList(arg0, callback) end
+function ProcessGlobalTypeList(thing_type, callback) end
 
 ---@param callback fun(thing: Thing): boolean
 ---@return Thing
 function ProcessGlobalUsedList(callback) end
 
----@param arg0 integer
+---@param thing_type integer
 ---@param callback fun(thing: Thing): boolean
 ---@return Thing
-function ProcessGlobalSpecialListAll(arg0, callback) end
+function ProcessGlobalSpecialListAll(thing_type, callback) end
 
 ---@param arg0 integer
 ---@param arg1 integer

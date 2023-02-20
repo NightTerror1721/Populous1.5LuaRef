@@ -21,6 +21,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]--
 
+if __DEFINED_KRAMPUS1721_INCLUDES_FLAGS then return end
+__DEFINED_KRAMPUS1721_INCLUDES_FLAGS = true
+
 
 Flags = {}
 
