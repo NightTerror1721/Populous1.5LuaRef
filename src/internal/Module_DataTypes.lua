@@ -824,7 +824,7 @@ PersonThingData = {}
 PersonWild = {}
 
 ---@class Player
----@field PlayerNum integer Tribe
+---@field PlayerNum Tribe Tribe
 ---@field StartNumPeople integer
 ---@field Mana integer
 ---@field NumPeople integer
@@ -838,6 +838,7 @@ PersonWild = {}
 ---@field NumLocalPeopleInBoats integer[] length = 9
 ---@field NumLocalPeopleInGuiState integer[][] length = rows:9, cols:6
 ---@field NumLocalPeopleOfType integer[] length = 9
+---@field NumPeopleOfType integer[] length = 9
 ---@field NumVehiclesOfType integer[] length = 5
 ---@field NumWildToRepopulate integer
 ---@field ShamanLives integer

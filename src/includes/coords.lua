@@ -221,3 +221,10 @@ function Coord.getMapPosFromMapXZ(x, z)
     coord.XZ.Z = z
     return coord
 end
+
+---@param coords AnyCoord
+---@return integer x, integer z
+function Coord.getMapXZ(coords)
+    local mapPos = Coord.toMapPos(coords)
+    return mapPos.XZ.X, mapPos.XZ.Z
+end

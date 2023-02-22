@@ -28,84 +28,86 @@ import(Module_System)
 import(Module_Math)
 
 ---@alias Turn integer
----@alias Time number
+---@alias Seconds number
 
 
 local _gsi = gsi()
 
 
+Time = {}
+
 ---@param turns Turn
----@return Time
-function TurnsToSeconds(turns)
+---@return Seconds
+function Time.toSeconds(turns)
     return turns / 12.0
 end
 
----@param seconds Time
+---@param seconds Seconds
 ---@return Turn
-function SecondsToTurns(seconds)
+function Time.toTurns(seconds)
     return math.floor(seconds * 12)
 end
 
 ---@return Turn
-function GetTurn()
-    return _gsi.Counts.GameTurn
+function Time.getTurn()
+    return _gsi.Counts.ProcessThings
 end
 
 ---@param turn Turn
-function IsTurn(turn)
-    return GetTurn() == turn
+function Time.isTurn(turn)
+    return Time.getTurn() == turn
 end
 
 ---@param turn Turn
-function IsAtLeastTurn(turn)
-    return GetTurn() >= turn
+function Time.isAtLeastTurn(turn)
+    return Time.getTurn() >= turn
 end
 
 ---@param turn Turn
-function IsAtMostTurn(turn)
-    return GetTurn() <= turn
+function Time.isAtMostTurn(turn)
+    return Time.getTurn() <= turn
 end
 
 ---@param min Turn
 ---@param max Turn
-function IsTurnBetween(min, max)
-    local turn = GetTurn()
+function Time.isTurnBetween(min, max)
+    local turn = Time.getTurn()
     return min >= turn and turn >= max
 end
 
 
 ---Return current game time in seconds
-function GetTime()
-    return TurnsToSeconds(GetTurn())
+function Time.getSeconds()
+    return Time.toSeconds(Time.getTurn())
 end
 
----@param seconds Time
-function IsTime(seconds)
-    return GetTime() == seconds
+---@param seconds Seconds
+function Time.isSeconds(seconds)
+    return Time.getSeconds() == seconds
 end
 
----@param seconds Time
-function IsAtLeastTime(seconds)
-    return GetTime() >= seconds
+---@param seconds Seconds
+function Time.isAtLeastTime(seconds)
+    return Time.getSeconds() >= seconds
 end
 
----@param seconds Time
-function IsAtMostTime(seconds)
-    return GetTime() <= seconds
+---@param seconds Seconds
+function Time.isAtMostTime(seconds)
+    return Time.getSeconds() <= seconds
 end
 
----@param min_seconds Time
----@param max_seconds Time
-function IsTimeBetween(min_seconds, max_seconds)
-    local seconds = GetTime()
+---@param min_seconds Seconds
+---@param max_seconds Seconds
+function Time.isTimeBetween(min_seconds, max_seconds)
+    local seconds = Time.getTime()
     return min_seconds >= seconds and seconds >= max_seconds
 end
 
 
 ---@param turns Turn
 ---@param delay? Turn
-function EveryTurns(turns, delay)
-    local turn = GetTurn() - (delay and math.max(0, math.floor(delay)) or 0)
+function Time.everyTurns(turns, delay)
+    local turn = Time.getTurn() - (delay and math.max(0, math.floor(delay)) or 0)
     if turn <= 0 then return false end
     return (turn % turns) == 0
 end
@@ -113,14 +115,14 @@ end
 ---@param base integer
 ---@param exponent integer
 ---@param delay? Turn
-function EveryPowTurns(base, exponent, delay)
-    return EveryTurns(math.floor(base ^ exponent), delay)
+function Time.everyPowTurns(base, exponent, delay)
+    return Time.everyTurns(math.floor(base ^ exponent), delay)
 end
 
 ---@param base integer
 ---@param delay? Turn
-function Every2PowTurns(base, delay)
-    return EveryPowTurns(base, 2, delay)
+function Time.every2PowTurns(base, delay)
+    return Time.everyPowTurns(base, 2, delay)
 end
 
 ---@param turns Turn
@@ -130,11 +132,11 @@ end
 ---@overload fun(turns: Turn, action: fun()): boolean
 function EveryTurnsDo(turns, delay, action)
     if action == nil then
-        local test = EveryTurns(turns)
+        local test = Time.everyTurns(turns)
         if test then (delay--[[@as fun()]])() end
         return test
     else
-        local test = EveryTurns(turns, delay)
+        local test = Time.everyTurns(turns, delay)
         if test then action() end
         return test
     end
@@ -146,8 +148,8 @@ end
 ---@param action fun()
 ---@return boolean
 ---@overload fun(base: integer, exponent: integer, action: fun()): boolean
-function EveryPowTurnsDo(base, exponent, delay, action)
-    return EveryTurnsDo(math.floor(base ^ exponent), delay, action)
+function Time.everyPowTurnsDo(base, exponent, delay, action)
+    return Time.everyTurnsDo(math.floor(base ^ exponent), delay, action)
 end
 
 ---@param base integer
@@ -155,30 +157,30 @@ end
 ---@param action fun()
 ---@return boolean
 ---@overload fun(base: integer, action: fun()): boolean
-function Every2PowTurnsDo(base, delay, action)
-    return EveryPowTurnsDo(base, 2, delay, action)
+function Time.every2PowTurnsDo(base, delay, action)
+    return Time.everyPowTurnsDo(base, 2, delay, action)
 end
 
 
----@param seconds Time
----@param delay_seconds? Time
-function EverySeconds(seconds, delay_seconds)
-    local delay = delay_seconds and SecondsToTurns(delay_seconds) or 0
-    return EveryTurns(SecondsToTurns(seconds), delay)
+---@param seconds Seconds
+---@param delay_seconds? Seconds
+function Time.everySeconds(seconds, delay_seconds)
+    local delay = delay_seconds and Time.toTurns(delay_seconds) or 0
+    return Time.everyTurns(Time.toTurns(seconds), delay)
 end
 
----@param seconds Time
----@param delay_seconds Time
+---@param seconds Seconds
+---@param delay_seconds Seconds
 ---@param action fun()
 ---@return boolean
----@overload fun(seconds: Time, action: fun()): boolean
-function EverySecondsDo(seconds, delay_seconds, action)
+---@overload fun(seconds: Seconds, action: fun()): boolean
+function Time.everySecondsDo(seconds, delay_seconds, action)
     if action == nil then
-        local test = EverySeconds(seconds)
+        local test = Time.everySeconds(seconds)
         if test then (delay_seconds--[[@as fun()]])() end
         return test
     else
-        local test = EverySeconds(seconds, delay_seconds)
+        local test = Time.everySeconds(seconds, delay_seconds)
         if test then action() end
         return test
     end

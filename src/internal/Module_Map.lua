@@ -409,15 +409,15 @@ function set_map_elem_lava_num(elem, arg1) end
 ---@return integer
 function get_map_elem_lava_num(elem) end
 
----@param arg0 integer
----@param arg1 integer
+---@param wx integer
+---@param wz integer
 ---@return integer
-function point_altitude_with_objects(arg0, arg1) end
+function point_altitude_with_objects(wx, wz) end
 
----@param arg0 integer
----@param arg1 integer
+---@param wx integer
+---@param wz integer
 ---@return integer
-function point_altitude(arg0, arg1) end
+function point_altitude(wx, wz) end
 
 ---@param arg0 integer
 ---@param arg1 integer
@@ -429,18 +429,18 @@ function set_square_map_params(arg0, arg1, arg2) end
 ---@param arg2 integer
 function affect_mapwho_area(arg0, arg1, arg2) end
 
----@param arg0 integer
----@param arg1 integer
----@param arg2 integer
----@param arg3 integer
----@param arg4 integer
----@param callback fun(elem: MapElement)
-function SearchMapCells(arg0, arg1, arg2, arg3, arg4, callback) end
+---@param shape `SQUARE`|`CIRCULAR`
+---@param arg1 0
+---@param arg2 0
+---@param radius integer
+---@param coord_idx integer
+---@param action fun(elem: MapElement)
+function SearchMapCells(shape, arg1, arg2, radius, coord_idx, action) end
 
 ---@param arg0 integer
 ---@param arg1 integer
 ---@param arg2 integer
 ---@param arg3 integer
 ---@param arg4 integer
----@param callback fun(elem: MapElement, pos: MapPosXZ)
-function SearchMapCellsXZ(arg0, arg1, arg2, arg3, arg4, callback) end
+---@param action fun(elem: MapElement, pos: MapPosXZ)
+function SearchMapCellsXZ(arg0, arg1, arg2, arg3, arg4, action) end

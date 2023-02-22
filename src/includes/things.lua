@@ -47,6 +47,7 @@ ThingType = {
 
 ---@enum BuildingModel
 BuildingModel = {
+    None = 0,
     Tepee = 1, SmallHut = 1,
     Tepee2 = 2, Hut = 2, MediumHut = 2,
     Tepee3 = 3, Farm = 3, LargeHut = 3,
@@ -205,7 +206,7 @@ PersonModel = {
     Religious = 4,
     Spy = 5,
     SuperWarrior = 6, FireWarrior = 6,
-    MedicineMan = 7,
+    MedicineMan = 7, Shaman = 7,
     Angel = 8,
 
     COUNT = 8

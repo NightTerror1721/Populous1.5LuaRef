@@ -107,3 +107,42 @@ function exit() end
 
 ---@param filename string
 function include(filename) end
+
+
+
+---@class Script4SaveData
+Script4SaveData = {}
+
+---@param value integer
+function Script4SaveData:push_int(value) end
+
+---@param value boolean
+function Script4SaveData:push_bool(value) end
+
+---@param value number
+function Script4SaveData:push_float(value) end
+
+---@param value string
+function Script4SaveData:push_string(value) end
+
+---@param value ObjectProxy
+function Script4SaveData:push_objectproxy(value) end
+
+
+---@class Script4LoadData
+Script4LoadData = {}
+
+---@return integer
+function Script4LoadData:pop_int() end
+
+---@return boolean
+function Script4LoadData:pop_bool() end
+
+---@return number
+function Script4LoadData:pop_float() end
+
+---@return string
+function Script4LoadData:pop_string() end
+
+---@return ObjectProxy
+function Script4LoadData:pop_objectproxy() end

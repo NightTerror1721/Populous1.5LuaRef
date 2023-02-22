@@ -441,13 +441,13 @@ CP_AT_TYPE_DEFEND_SHAMEN = (28)
 
 
 
----@alias AttackTargetType
+---@alias InternalAttackTargetType
 ---| `ATTACK_MARKER`
 ---| `ATTACK_BUILDING`
 ---| `ATTACK_PERSON`
 
 
----@alias AttackType
+---@alias InternalAttackType
 ---| `ATTACK_NORMAL`
 ---| `ATTACK_BY_BOAT`
 ---| `ATTACK_BY_BALLOON`
@@ -548,25 +548,25 @@ function SET_TIMER_GOING(time, tribe) end
 
 ---@param x integer
 ---@param z integer
----@param angle integer
+---@param start integer
 ---@param duration integer
-function FLYBY_SET_EVENT_POS(x, z, angle, duration) end
+function FLYBY_SET_EVENT_POS(x, z, start, duration) end
 
----@param event_angle integer
 ---@param angle integer
+---@param start integer
 ---@param duration integer
-function FLYBY_SET_EVENT_ANGLE(event_angle, angle, duration) end
+function FLYBY_SET_EVENT_ANGLE(angle, start, duration) end
 
 ---@param zoom integer
----@param angle integer
+---@param start integer
 ---@param duration integer
-function FLYBY_SET_EVENT_ZOOM(zoom, angle, duration) end
+function FLYBY_SET_EVENT_ZOOM(zoom, start, duration) end
 
 ---@param arg0 integer
 ---@param arg1 integer
----@param angle integer
+---@param start integer
 ---@param duration integer
-function FLYBY_SET_EVENT_INT_POINT(arg0, arg1, angle, duration) end
+function FLYBY_SET_EVENT_INT_POINT(arg0, arg1, start, duration) end
 
 ---@param x integer
 ---@param z integer
@@ -753,13 +753,13 @@ function START_REINC_NOW(tribe) end
 ---@param attack_owner_tribe Tribe
 ---@param target_tribe Tribe
 ---@param people integer
----@param target_type AttackTargetType
+---@param target_type InternalAttackTargetType
 ---@param target_model InternalFollowerModel | InternalBuildingModel
 ---@param damage integer
 ---@param spell1 InternalSpellModel
 ---@param spell2 InternalSpellModel
 ---@param spell3 InternalSpellModel
----@param attack_type AttackType
+---@param attack_type InternalAttackType
 ---@param look_after integer|0|1
 ---@param marker1 integer
 ---@param marker2 integer
@@ -892,7 +892,7 @@ function OH_LOOK_PLAYER_HAS_JUST_KILLED_HIS_FIRST_GHOST(tribe) end
 
 ---@param tribe Tribe
 ---@param tribe_target Tribe
----@param target_type AttackTargetType
+---@param target_type InternalAttackTargetType
 ---@param target_model InternalFollowerModel | InternalBuildingModel
 ---@param remember integer
 ---@return integer

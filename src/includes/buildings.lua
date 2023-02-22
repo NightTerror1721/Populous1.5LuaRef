@@ -61,17 +61,18 @@ local ValidOrientations = {
 ---@class BuildingInfo
 ---@field tribe Tribe
 ---@field model BuildingModel
----@filed private TribesBuildings BuildingInfo[][]
+---@field private TribesBuildings BuildingInfo[][]
 ---@field Count BuildingModel.COUNT
 BuildingInfo = {}
 BuildingInfo.__index = BuildingInfo
+BuildingInfo.__name = "Krampus1721.BuildingInfo"
 
 BuildingInfo.Count = BuildingModel.COUNT
 
 ---@param tribe Tribe
 ---@param model BuildingModel
 ---@return BuildingInfo
-local function CreateBuilding(tribe, model)
+local function CreateInstance(tribe, model)
     ---@type BuildingInfo
     local obj = {}
     setmetatable(obj, BuildingInfo)
@@ -217,7 +218,7 @@ end
 ---@param orientation? BuildingOrientation
 ---@return Thing
 function BuildingInfo:create(coords, orientation)
-    local bldg = _G.CreateBuilding(self.model, self.tribe, Coord.to3D(coords))
+    local bldg = CreateBuilding(self.model, self.tribe, Coord.to3D(coords))
     if bldg then
         orientation = orientation and ValidOrientations[orientation] or nil
         if orientation then
@@ -235,7 +236,7 @@ BuildingInfo.TribesBuildings = {}
 for tribe = 0, 10, 1 do
     local tribeBuildings = {}
     for buildingModel = 1, BuildingInfo.Count, 1 do
-        tribeBuildings[buildingModel] = CreateBuilding(tribe, buildingModel)
+        tribeBuildings[buildingModel] = CreateInstance(tribe, buildingModel)
     end
     BuildingInfo.TribesBuildings[tribe] = tribeBuildings
 end

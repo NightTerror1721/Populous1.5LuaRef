@@ -38,6 +38,11 @@ local function GetPlayerThings(tribe)
     return _gsi.ThisLevelInfo.PlayerThings[tribe]
 end
 
+---@param tribe Tribe
+local function GetPlayer(tribe)
+    return _gsi.Players[tribe]
+end
+
 
 ---@class SpellInfo
 ---@field tribe Tribe
@@ -46,13 +51,14 @@ end
 ---@field Count SpellModel.COUNT
 SpellInfo = {}
 SpellInfo.__index = SpellInfo
+SpellInfo.__name = "Krampus1721.SpellInfo"
 
 SpellInfo.Count = SpellModel.COUNT
 
 ---@param tribe Tribe
 ---@param spell SpellModel
 ---@return SpellInfo
-local function CreateSpell(tribe, spell)
+local function CreateInstance(tribe, spell)
     ---@type SpellInfo
     local obj = {}
     setmetatable(obj, SpellInfo)
@@ -91,17 +97,17 @@ function SpellInfo:isEnabled()
 end
 
 ---@param shots integer
-function SpellInfo:setOnceShots(shots)
+function SpellInfo:setShots(shots)
     GetPlayerThings(self.tribe).SpellsAvailableOnce[self.model] = math.max(0, shots)
 end
 
-function SpellInfo:getOnceShots()
+function SpellInfo:getShots()
     return GetPlayerThings(self.tribe).SpellsAvailableOnce[self.model]
 end
 
 ---@param shots integer
 function SpellInfo:giveShots(shots)
-    self:setOnceShots(self:getOnceShots() + math.max(0, shots))
+    self:setShots(self:getShots() + math.max(0, shots))
 end
 
 ---@param enabled boolean
@@ -118,10 +124,19 @@ function SpellInfo:isLevelEnabled()
     return Flags.isBitSet(GetPlayerThings(self.tribe).SpellsAvailableLevel, self.model)
 end
 
+function SpellInfo:getMana()
+    return GetPlayer(self.tribe).SpellsMana[self.model]
+end
+
+function SpellInfo:getCastCount()
+    if self.model > 22 then return 0 end
+    return GetPlayer(self.tribe).SpellsCast[self.model]
+end
+
 ---@param coords AnyCoord
 ---@return Thing
 function SpellInfo:cast(coords)
-    return _G.CreateSpell(self.model, self.tribe, Coord.to3D(coords))
+    return CreateSpell(self.model, self.tribe, Coord.to3D(coords))
 end
 
 
@@ -132,7 +147,7 @@ SpellInfo.TribesSpells = {}
 for tribe = 0, 10, 1 do
     local tribeSpells = {}
     for spellModel = 1, SpellInfo.Count, 1 do
-        tribeSpells[spellModel] = CreateSpell(tribe, spellModel)
+        tribeSpells[spellModel] = CreateInstance(tribe, spellModel)
     end
     SpellInfo.TribesSpells[tribe] = tribeSpells
 end
