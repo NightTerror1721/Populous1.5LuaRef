@@ -228,3 +228,53 @@ function Coord.getMapXZ(coords)
     local mapPos = Coord.toMapPos(coords)
     return mapPos.XZ.X, mapPos.XZ.Z
 end
+
+
+---@param coords Coord3D
+function Coord.ensureOnGround(coords)
+    ensure_point_on_ground(coords)
+    return coords
+end
+
+---@param coords Coord3D
+function Coord.ensureAboveround(coords)
+    ensure_point_above_ground(coords)
+    return coords
+end
+
+---@param thing Thing
+function Coord.ensureThingOnGround(thing)
+    ensure_thing_on_ground(thing)
+    return thing
+end
+
+---@param coords Coord2D
+---@return Coord2D
+---@overload fun(coords: Coord3D): Coord3D
+function Coord.centerOnBlock(coords)
+    if Coord.getType(coords) == CoordType.Coord2D then
+        centre_coord_on_block(coords)
+    else
+        entre_coord3d_on_block(coords--[[@as Coord3D]])
+    end
+    return coords
+end
+
+---@param coords Coord2D
+---@return Coord2D
+---@overload fun(coords: Coord3D): Coord3D
+function Coord.zeroOnBlock(coords)
+    if Coord.getType(coords) == CoordType.Coord2D then
+        zero_coord_on_block(coords)
+    else
+        zero_coord3d_on_block(coords--[[@as Coord3D]])
+    end
+    return coords
+end
+
+---@param coords Coord2D
+---@return Coord2D
+function Coord.randomizeOnBlock(coords)
+    randomize_coord_on_block(coords)
+    return coords
+end

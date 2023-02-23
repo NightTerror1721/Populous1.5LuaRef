@@ -52,9 +52,9 @@ function is_map_cell_land(cell) end
 function is_map_point_sea(coords) end
 
 ---@param cell integer
----@param arg1 integer
+---@param radius integer
 ---@return integer
-function is_map_cell_near_coast(cell, arg1) end
+function is_map_cell_near_coast(cell, radius) end
 
 ---@param player Player
 ---@param cell integer
@@ -113,9 +113,9 @@ function get_max_alt_diff_for_coord2d(coords) end
 ---@return integer
 function get_shade_from_dir_code(arg0) end
 
----@param arg0 integer
+---@param cell integer
 ---@return integer
-function get_max_alt_diff_for_cell(arg0) end
+function get_max_alt_diff_for_cell(cell) end
 
 ---@param square unknown
 ---@param arg1 integer
@@ -402,8 +402,8 @@ function set_map_elem_object_shadow(elem, arg1) end
 function get_map_elem_object_shadow(elem) end
 
 ---@param elem MapElement
----@param arg1 integer
-function set_map_elem_lava_num(elem, arg1) end
+---@param num integer
+function set_map_elem_lava_num(elem, num) end
 
 ---@param elem MapElement
 ---@return integer

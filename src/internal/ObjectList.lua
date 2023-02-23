@@ -34,60 +34,76 @@ ObjectListType = {
 ---@overload fun(cpy: ObjectList): ObjectList
 ObjectList = {
     ---@param type ObjectListType
-    setObjectListType = function(type) end,
+    setObjectListType = function(self, type) end,
 
+    ---@param self ObjectList
     ---@param t Thing
     ---@return OBJLIST
-    insert = function(t) end,
+    insert = function(self, t) end,
 
+    ---@param self ObjectList
     ---@param t Thing
     ---@param delete? boolean
-    remove = function(t, delete) end,
+    remove = function(self, t, delete) end,
 
+    ---@param self ObjectList
     ---@return Thing
-    front = function() end,
+    front = function(self) end,
 
+    ---@param self ObjectList
     ---@return Thing
-    tail = function() end,
+    tail = function(self) end,
 
+    ---@param self ObjectList
     ---@return Thing
-    pop_front = function() end,
+    pop_front = function(self) end,
 
+    ---@param self ObjectList
     ---@return Thing
-    pop_tail = function() end,
+    pop_tail = function(self) end,
+
+    ---@param self ObjectList
+    ---@param t Thing
+    ---@return Thing
+    getNextThing = function(self, t) end,
 
     ---@param t Thing
     ---@return Thing
-    getNextThing = function(t) end,
+    getPreviousThing = function(self, t) end,
 
-    ---@param t Thing
-    ---@return Thing
-    getPreviousThing = function(t) end,
-
+    ---@param self ObjectList
     ---@return integer
-    count = function() end,
+    count = function(self) end,
 
+    ---@param self ObjectList
     ---@return ObjectListType
-    whatListAmI = function() end,
+    whatListAmI = function(self) end,
 
+    ---@param self ObjectList
     ---@param predicate fun(predicate: Thing): Thing|nil
-    processList = function(predicate) end,
+    processList = function(self, predicate) end,
 
-    reset = function() end,
+    ---@param self ObjectList
+    reset = function(self) end,
 
-    isEmpty = function() end,
+    ---@param self ObjectList
+    isEmpty = function(self) end,
 
+    ---@param self ObjectList
     ---@param t Thing
     ---@return OBJLIST | nil
-    AmIInList = function(t) end,
+    AmIInList = function(self, t) end,
 
+    ---@param self ObjectList
     ---@param idx integer
     ---@return Thing
-    getNth = function(idx) end,
+    getNth = function(self, idx) end,
 
+    ---@param self ObjectList
     ---@return Thing[]
-    toThingVector = function() end,
+    toThingVector = function(self) end,
 
+    ---@param self ObjectList
     ---@return ObjectProxy[]
-    toObjectProxyVector = function() end,
+    toObjectProxyVector = function(self) end,
 }

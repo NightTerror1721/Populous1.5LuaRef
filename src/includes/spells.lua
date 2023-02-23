@@ -24,6 +24,7 @@
 if __DEFINED_KRAMPUS1721_INCLUDES_SPELLS then return end
 __DEFINED_KRAMPUS1721_INCLUDES_SPELLS = true
 
+import(Module_Globals)
 import(Module_System)
 import(Module_Math)
 include("includes/flags.lua")

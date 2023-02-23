@@ -25,6 +25,7 @@ if __DEFINED_KRAMPUS1721_INCLUDES_PERSONS then return end
 __DEFINED_KRAMPUS1721_INCLUDES_PERSONS = true
 
 
+import(Module_Globals)
 import(Module_System)
 include("includes/flags.lua")
 include("includes/coords.lua")

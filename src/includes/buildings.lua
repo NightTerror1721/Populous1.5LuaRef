@@ -24,6 +24,7 @@
 if __DEFINED_KRAMPUS1721_INCLUDES_BUILDINGS then return end
 __DEFINED_KRAMPUS1721_INCLUDES_BUILDINGS = true
 
+import(Module_Globals)
 import(Module_System)
 include("includes/flags.lua")
 include("includes/coords.lua")
