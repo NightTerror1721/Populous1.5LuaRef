@@ -131,7 +131,7 @@ end
 ---@param action fun()
 ---@return boolean
 ---@overload fun(turns: Turn, action: fun()): boolean
-function EveryTurnsDo(turns, delay, action)
+function Time.everyTurnsDo(turns, delay, action)
     if action == nil then
         local test = Time.everyTurns(turns)
         if test then (delay--[[@as fun()]])() end

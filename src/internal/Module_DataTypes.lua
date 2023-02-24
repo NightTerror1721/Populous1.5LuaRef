@@ -509,6 +509,29 @@ GlobalClassesItems = {}
 ---@field AudioInfo AudioInfo
 GlobalNonSaveItems = {}
 
+---@class FogOfWar
+FogOfWar = {}
+
+---@param tribe Tribe
+---@param elem MapElement
+function FogOfWar:uncover(tribe, elem) end
+
+---@param tribe Tribe
+---@param elem MapElement
+function FogOfWar:perm_uncover(tribe, elem) end
+
+---@param elem MapElement
+function FogOfWar:uncover_for_all_players(elem) end
+
+---@param elem MapElement
+function FogOfWar:perm_uncover_all_players(elem) end
+
+function FogOfWar:clear() end
+
+---@param elem MapElement
+---@return integer
+function FogOfWar:is_uncovered(elem) end
+
 ---@class GlobalSaveItems
 ---@field Level Level
 ---@field Counts NetworkCounts
@@ -524,7 +547,7 @@ GlobalNonSaveItems = {}
 ---@field PermBuildingPresentOnLevel integer
 ---@field LevelInfo LevelInfo
 ---@field ThisLevelInfo ThisLevelInfo
----@field FogOfWar unknown
+---@field FogOfWar FogOfWar
 GlobalSaveItems = {}
 
 ---@class GuardAreaControl

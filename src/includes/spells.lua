@@ -26,6 +26,7 @@ __DEFINED_KRAMPUS1721_INCLUDES_SPELLS = true
 
 import(Module_Globals)
 import(Module_System)
+import(Module_Players)
 import(Module_Math)
 include("includes/flags.lua")
 include("includes/coords.lua")
@@ -41,7 +42,7 @@ end
 
 ---@param tribe Tribe
 local function GetPlayer(tribe)
-    return _gsi.Players[tribe]
+    return getPlayer(tribe)
 end
 
 

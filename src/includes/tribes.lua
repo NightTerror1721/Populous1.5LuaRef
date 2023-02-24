@@ -25,10 +25,12 @@ if __DEFINED_KRAMPUS1721_INCLUDES_TRIBES then return end
 __DEFINED_KRAMPUS1721_INCLUDES_TRIBES = true
 
 
+import(Module_Players)
 import(Module_PopScript)
 include("includes/spells.lua")
 include("includes/buildings.lua")
 include("includes/persons.lua")
+include("includes/gametime.lua")
 
 
 ---@enum TribeNum
@@ -148,11 +150,6 @@ AttackType = {
 
 
 local _gsi = gsi()
-
----@param tribe TribeNum
-local function GetPlayer(tribe)
-    return _gsi.Players[tribe]
-end
 
 
 ---@class TribeAIAttributes
@@ -477,7 +474,6 @@ local function CreateInstance(tribe)
     setmetatable(obj, TribeInfo)
 
     obj.num = tribe
-    obj.player = GetPlayer(tribe)
 
     obj.Spells = {
         Burn = SpellInfo.get(tribe, SpellModel.Burn),
@@ -566,7 +562,6 @@ end
 
 ---@class TribeInfo
 ---@field num TribeNum
----@field player Player
 ---@field Spells TribeSpellsPool
 ---@field Buildings TribeBuildingsPool
 ---@field Persons TribePersonsInfo
@@ -580,6 +575,10 @@ TribeInfo.__name = "Krampus1721.TribeInfo"
 
 TribeInfo.Count = 10
 
+function TribeInfo:getPlayer()
+    return getPlayer(self.num)
+end
+
 function TribeInfo:getShaman()
     return getShaman(self.num)
 end
@@ -589,32 +588,33 @@ function TribeInfo:isShamanAlive()
 end
 
 function TribeInfo:getMana()
-    return self.player.Mana
+    return getPlayer(self.num).Mana
 end
 
 ---@param amount integer
 function TribeInfo:giveMana(amount)
-    self.player.Mana = self.player.Mana + math.max(0, amount)
+    local player = getPlayer(self.num)
+    player.Mana = player.Mana + math.max(0, amount)
 end
 
 function TribeInfo:getNumPeople()
-    return self.player.NumPeople
+    return getPlayer(self.num).NumPeople
 end
 
 function TribeInfo:getNumPeopleConverted()
-    return self.player.NumPeopleConverted
+    return getPlayer(self.num).NumPeopleConverted
 end
 
 function TribeInfo:getNumGhostPeople()
-    return self.player.NumGhostPeople
+    return getPlayer(self.num).NumGhostPeople
 end
 
 function TribeInfo:getNumBuildings()
-    return self.player.NumBuildings
+    return getPlayer(self.num).NumBuildings
 end
 
 function TribeInfo:getReincSiteCoord()
-    return self.player.ReincarnSiteCoord
+    return getPlayer(self.num).ReincarnSiteCoord
 end
 
 function TribeInfo:clearShamanLeftClick()
@@ -749,6 +749,15 @@ function TribeInfo:attack(
     ) ~= 0
 end
 
+---@class MarkerEntryProperties
+---@field entry integer
+---@field marker1 integer
+---@field marker2 integer?
+---@field braves integer?
+---@field warriors integer?
+---@field swarriors integer?
+---@field preachers integer?
+
 ---@param entry integer
 ---@param marker1 integer
 ---@param marker2 integer
@@ -756,11 +765,23 @@ end
 ---@param num_warriors? integer
 ---@param num_swarriors? integer
 ---@param num_preachers? integer
+---@overload fun(self: TribeInfo, props: MarkerEntryProperties)
 function TribeInfo:setMarkerEntry(entry, marker1, marker2, num_braves, num_warriors, num_swarriors, num_preachers)
-    num_braves = num_braves == nil and 0 or (num_braves--[[@as integer]])
-    num_warriors = num_warriors == nil and 0 or (num_warriors--[[@as integer]])
-    num_swarriors = num_swarriors == nil and 0 or (num_swarriors--[[@as integer]])
-    num_preachers = num_preachers == nil and 0 or (num_preachers--[[@as integer]])
+    if type(entry) == "table" then
+        local props = entry--[[@as MarkerEntryProperties]]
+        entry = props.entry
+        marker1 = props.marker1
+        marker2 = props.marker2 and props.marker2 or -1
+        num_braves = props.braves and props.braves or 0
+        num_warriors = props.warriors and props.warriors or 0
+        num_swarriors = props.swarriors and props.swarriors or 0
+        num_preachers = props.preachers and props.preachers or 0
+    else
+        num_braves = num_braves == nil and 0 or (num_braves--[[@as integer]])
+        num_warriors = num_warriors == nil and 0 or (num_warriors--[[@as integer]])
+        num_swarriors = num_swarriors == nil and 0 or (num_swarriors--[[@as integer]])
+        num_preachers = num_preachers == nil and 0 or (num_preachers--[[@as integer]])
+    end
     SET_MARKER_ENTRY(self.num, entry, marker1, marker2, num_braves, num_warriors, num_swarriors, num_preachers)
 end
 
@@ -1087,14 +1108,122 @@ end
 ---@overload fun(tribe: TribeInfo): integer
 function TribeInfo:getPeopleKilled(tribe)
     if type(tribe) == "number" then
-        return self.player.PeopleKilled[tribe]
+        return getPlayer(self.num).PeopleKilled[tribe]
     else
-        return self.player.PeopleKilled[(tribe--[[@as TribeInfo]]).num]
+        return getPlayer(self.num).PeopleKilled[(tribe--[[@as TribeInfo]]).num]
     end
 end
 
 function TribeInfo:getDeadCount()
-    return self.player.DeadCount
+    return getPlayer(self.num).DeadCount
+end
+
+---@param every_turns? integer
+---@param max_people_with_turbo? integer
+function TribeInfo:updateBuckets(every_turns, max_people_with_turbo)
+    if not every_turns then every_turns = 256 end
+    if not max_people_with_turbo then max_people_with_turbo = 79 end
+
+    Time.everyTurnsDo(every_turns, function()
+        self:setBucketUsage(true)
+        if self:getNumPeople() <= max_people_with_turbo then
+            self:setBucketCountForSpell(SpellModel.Blast, 8);
+            self:setBucketCountForSpell(SpellModel.ConvertWild, 8);
+            self:setBucketCountForSpell(SpellModel.InsectPlage, 32);
+            self:setBucketCountForSpell(SpellModel.Invisibility, 40);
+            self:setBucketCountForSpell(SpellModel.Shield, 48);
+            self:setBucketCountForSpell(SpellModel.LandBridge, 66);
+            self:setBucketCountForSpell(SpellModel.LightningBolt, 64);
+            self:setBucketCountForSpell(SpellModel.Hypnotism, 70);
+            self:setBucketCountForSpell(SpellModel.Whirlwind, 72);
+            self:setBucketCountForSpell(SpellModel.Swamp, 80);
+            self:setBucketCountForSpell(SpellModel.Flatten, 100);
+            self:setBucketCountForSpell(SpellModel.Earthquake, 140);
+            self:setBucketCountForSpell(SpellModel.Erosion, 168);
+            self:setBucketCountForSpell(SpellModel.Firestorm, 320);
+            self:setBucketCountForSpell(SpellModel.AngelOfDeath, 408);
+            self:setBucketCountForSpell(SpellModel.Volcano, 640);
+        else
+            self:setBucketCountForSpell(SpellModel.Blast, 4);
+            self:setBucketCountForSpell(SpellModel.ConvertWild, 4);
+            self:setBucketCountForSpell(SpellModel.InsectPlage, 16);
+            self:setBucketCountForSpell(SpellModel.Invisibility, 20);
+            self:setBucketCountForSpell(SpellModel.Shield, 24);
+            self:setBucketCountForSpell(SpellModel.LandBridge, 33);
+            self:setBucketCountForSpell(SpellModel.LightningBolt, 32);
+            self:setBucketCountForSpell(SpellModel.Hypnotism, 35);
+            self:setBucketCountForSpell(SpellModel.Whirlwind, 36);
+            self:setBucketCountForSpell(SpellModel.Swamp, 40);
+            self:setBucketCountForSpell(SpellModel.Flatten, 50);
+            self:setBucketCountForSpell(SpellModel.Earthquake, 70);
+            self:setBucketCountForSpell(SpellModel.Erosion, 84);
+            self:setBucketCountForSpell(SpellModel.Firestorm, 180);
+            self:setBucketCountForSpell(SpellModel.AngelOfDeath, 204);
+            self:setBucketCountForSpell(SpellModel.Volcano, 320);
+        end
+    end)
+end
+
+function TribeInfo:initComputer()
+    computer_init_player(getPlayer(self.num))
+end
+
+---@param x integer
+---@param z integer
+---@overload fun(coords: AnyCoord)
+function TribeInfo:setComputerBasePos(x, z)
+    if z == nil then
+        x, z = Coord.getMapXZ(x--[[@as AnyCoord]])
+    end
+    computer_set_base_pos(getPlayer(self.num), x, z)
+end
+
+function TribeInfo:setInitialCommand()
+    set_players_shaman_initial_command(getPlayer(self.num))
+end
+
+function TribeInfo:destroyReinc()
+    destroy_reinc(getPlayer(self.num))
+end
+
+---@param tribe TribeNum|TribeInfo
+function TribeInfo:transferTribeToAnotherPlayer(tribe)
+    tribe = ToTribe(tribe)
+    transfer_tribe_to_another_player(self.num, tribe)
+end
+
+---@param tribe TribeNum|TribeInfo
+---@return boolean
+function TribeInfo:isMyAlly(tribe)
+    tribe = ToTribe(tribe)
+    return are_players_allied(self.num, tribe)
+end
+
+---@param tribe TribeNum|TribeInfo
+---@return boolean
+function TribeInfo:isMyEnemy(tribe)
+    tribe = ToTribe(tribe)
+    return not are_players_allied(self.num, tribe)
+end
+
+---@param tribe TribeNum|TribeInfo
+---@param bidirectional? boolean default true
+function TribeInfo:setMyAlly(tribe, bidirectional)
+    tribe = ToTribe(tribe)
+    set_players_allied(self.num, tribe)
+    if bidirectional == nil or bidirectional == true then
+        set_players_allied(tribe, self.num)
+    end
+end
+
+---@param tribe TribeNum|TribeInfo
+---@param bidirectional? boolean default true
+function TribeInfo:setMyEnemy(tribe, bidirectional)
+    tribe = ToTribe(tribe)
+    set_players_enemies(self.num, tribe)
+    if bidirectional == nil or bidirectional == true then
+        set_players_enemies(tribe, self.num)
+    end
 end
 
 

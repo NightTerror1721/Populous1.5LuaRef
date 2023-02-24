@@ -112,19 +112,25 @@ function Map.getMaxAltitudeDifferenceFor(coords)
     return get_max_alt_diff_for_coord2d(Coord.to2D(coords--[[@as AnyCoord]]))
 end
 
----@param coords AnyCoord|integer
+---@param x integer
+---@param z? integer
 ---@return MapElement
-function Map.geElement(coords)
-    if type(coords) == "number" then
-        return _gsi.Level.MapElements[coords]
+---@overload fun(coords: AnyCoord)
+function Map.getElement(x, z)
+    if type(x) == "number" then
+        if z == nil then
+            return _gsi.Level.MapElements[x]
+        else
+            return world_coord2d_to_map_ptr(Coord.get2DFromMapXZ(x, z))
+        end
     end
-    local type = Coord.getType(coords--[[@as AnyCoord]])
+    local type = Coord.getType(x--[[@as AnyCoord]])
     if type == CoordType.Coord2D then
-        return world_coord2d_to_map_ptr(coords--[[@as Coord2D]])
+        return world_coord2d_to_map_ptr(x--[[@as Coord2D]])
     elseif type == CoordType.Coord3D then
-        return world_coord3d_to_map_ptr(coords--[[@as Coord3D]])
+        return world_coord3d_to_map_ptr(x--[[@as Coord3D]])
     else
-        return _gsi.Level.MapElements[(coords--[[@as MapPosXZ]]).Pos]
+        return world_coord2d_to_map_ptr(Coord.get2DFromMapXZ((x--[[@as MapPosXZ]]).XZ.X, (x--[[@as MapPosXZ]]).XZ.Z))
     end
 end
 
@@ -331,8 +337,90 @@ Map.SearchShape = {
 ---@param shape Map.SearchShape
 ---@param radius integer
 ---@param coords AnyCoord|integer
----@param action fun(elem: MapElement)
+---@param action fun(elem: MapElement): boolean
 function Map.search(shape, radius, coords, action)
     coords = Map.getCellIndex(coords)
     SearchMapCells(shape, 0, 0, radius, coords, action)
+end
+
+
+
+FOW = {}
+
+---@param tribe Tribe
+---@param radius integer
+---@param elem MapElement
+function FOW.uncoverElement(tribe, radius, elem)
+    Map.search(Map.SearchShape.Circular, radius, Map.get2D(elem), function(e)
+        _gsi.FogOfWar:uncover(tribe, e)
+        return true
+    end)
+end
+
+---@param tribe Tribe
+---@param radius integer
+---@param x integer
+---@param z? integer
+---@overload fun(coords: AnyCoord)
+function FOW.uncover(tribe, radius, x, z)
+    FOW.uncoverElement(tribe, radius, Map.getElement(x, z))
+end
+
+---@param tribe Tribe
+---@param radius integer
+---@param elem MapElement
+function FOW.uncoverPermanentElement(tribe, radius, elem)
+    Map.search(Map.SearchShape.Circular, radius, Map.get2D(elem), function(e)
+        _gsi.FogOfWar:perm_uncover(tribe, e)
+        return true
+    end)
+end
+
+---@param tribe Tribe
+---@param radius integer
+---@param x integer
+---@param z? integer
+---@overload fun(coords: AnyCoord)
+function FOW.uncoverPermanent(tribe, radius, x, z)
+    FOW.uncoverPermanentElement(tribe, radius, Map.getElement(x, z))
+end
+
+---@param radius integer
+---@param elem MapElement
+function FOW.uncoverForAllPlayersElement(radius, elem)
+    Map.search(Map.SearchShape.Circular, radius, Map.get2D(elem), function(e)
+        _gsi.FogOfWar:uncover_for_all_players(e)
+        return true
+    end)
+end
+
+---@param radius integer
+---@param x integer
+---@param z? integer
+---@overload fun(coords: AnyCoord)
+function FOW.uncoverForAllPlayers(radius, x, z)
+    FOW.uncoverForAllPlayersElement(radius, Map.getElement(x, z))
+end
+
+---@param radius integer
+---@param elem MapElement
+function FOW.uncoverPermanentForAllPlayersElement(radius, elem)
+    Map.search(Map.SearchShape.Circular, radius, Map.get2D(elem), function(e)
+        _gsi.FogOfWar:perm_uncover_all_players(e)
+        return true
+    end)
+end
+
+---@param radius integer
+---@param x integer
+---@param z? integer
+---@overload fun(coords: AnyCoord)
+function FOW.uncoverPermanentForAllPlayers(radius, x, z)
+    FOW.uncoverPermanentForAllPlayersElement(radius, Map.getElement(x, z))
+end
+
+---@param elem MapElement
+---@return boolean
+function FOW.isUncoveredElement(elem)
+    return _gsi.FogOfWar:is_uncovered(elem) ~= 0
 end
