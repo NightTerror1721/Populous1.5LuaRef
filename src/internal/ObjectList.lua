@@ -80,7 +80,8 @@ ObjectList = {
     whatListAmI = function(self) end,
 
     ---@param self ObjectList
-    ---@param predicate fun(predicate: Thing): Thing|nil
+    ---@param predicate fun(predicate: Thing): boolean
+    ---@return Thing|nil
     processList = function(self, predicate) end,
 
     ---@param self ObjectList

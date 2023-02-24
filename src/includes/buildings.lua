@@ -208,7 +208,7 @@ function BuildingInfo:isLevelEnabled()
 end
 
 function BuildingInfo:getNumInWorld()
-    return GetPlayer(self.tribe).NumBuildingsType[self.model]
+    return GetPlayer(self.tribe).NumBuildingsOfType[self.model]
 end
 
 ---@param action fun(building: Thing): boolean|nil

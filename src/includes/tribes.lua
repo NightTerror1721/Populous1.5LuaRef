@@ -158,10 +158,10 @@ local _gsi = gsi()
 ---@field PrefReligiousTrains integer
 ---@field PrefWarriorTrains integer
 ---@field PrefSuperWarriorTrains integer
----@field PrefSuperSpyPeople integer
----@field PrefSuperReligiousPeople integer
+---@field PrefSpyPeople integer
+---@field PrefReligiousPeople integer
+---@field PrefWarriorPeople integer
 ---@field PrefSuperWarriorPeople integer
----@field PrefSuperSuperWarriorPeople integer
 ---@field MaxBuildingsOnGo integer
 ---@field HousePercentage integer
 ---@field AwayBrave integer
@@ -208,10 +208,10 @@ local TribeAIAttributesMap = {
     PrefReligiousTrains = ATTR_PREF_RELIGIOUS_TRAINS,
     PrefWarriorTrains = ATTR_PREF_WARRIOR_TRAINS,
     PrefSuperWarriorTrains = ATTR_PREF_SUPER_WARRIOR_TRAINS,
-    PrefSuperSpyPeople = ATTR_PREF_SPY_PEOPLE,
-    PrefSuperReligiousPeople = ATTR_PREF_RELIGIOUS_PEOPLE,
-    PrefSuperWarriorPeople = ATTR_PREF_WARRIOR_PEOPLE,
-    PrefSuperSuperWarriorPeople = ATTR_PREF_SUPER_WARRIOR_PEOPLE,
+    PrefSpyPeople = ATTR_PREF_SPY_PEOPLE,
+    PrefReligiousPeople = ATTR_PREF_RELIGIOUS_PEOPLE,
+    PrefWarriorPeople = ATTR_PREF_WARRIOR_PEOPLE,
+    PrefSuperWarriorPeople = ATTR_PREF_SUPER_WARRIOR_PEOPLE,
     MaxBuildingsOnGo = ATTR_MAX_BUILDINGS_ON_GO,
     HousePercentage = ATTR_HOUSE_PERCENTAGE,
     AwayBrave = ATTR_AWAY_BRAVE,
@@ -416,7 +416,8 @@ local function CreateAttributesObject(tribe)
         if index == nil then
             error("Unknown attribute '"..key.."'")
         end
-        return _gsi.ThisLevelInfo.Attribs[tribe].Value[index]
+        return READ_CP_ATTRIB(tribe, index)
+        --return _gsi.ThisLevelInfo.Attribs[tribe].Value[index]
     end)
     
     ---@param table table
@@ -427,8 +428,9 @@ local function CreateAttributesObject(tribe)
         if index == nil then
             error("Unknown attribute '"..key.."'")
         end
-        value = math.floor(math.max(0, math.min(255, value)))
-        _gsi.ThisLevelInfo.Attribs[tribe].Value[index] = value
+        --value = math.floor(math.max(0, math.min(255, value)))
+        WRITE_CP_ATTRIB(tribe, index, value)
+        --_gsi.ThisLevelInfo.Attribs[tribe].Value[index] = value
         return value
     end)
 
@@ -451,7 +453,7 @@ local function CreateStatesObject(tribe)
     ---@param key any
     ---@param value any
     rawset(mt, "__newindex", function(table, key, value)
-        local index = TribeAIAttributesMap[key]
+        local index = TribeAIStatesMap[key]
         if index == nil then
             error("Unknown state '"..key.."'")
         end
@@ -654,10 +656,6 @@ end
 
 function TribeInfo:deselectAllPeople()
     DESELECT_ALL_PEOPLE(self.num)
-end
-
-function TribeInfo:setAutoBuild()
-    SET_AUTO_BUILD(self.num)
 end
 
 ---@param enabled boolean
@@ -991,6 +989,8 @@ function TribeInfo:putPersonInDT(model, x, z)
     PUT_PERSON_IN_DT(self.num, GetInternalFollowerModel(model), x, z)
 end
 
+TribeInfo.populateDrumTower = TribeInfo.putPersonInDT
+
 ---@param num_people integer
 ---@param model PersonModel
 function TribeInfo:trainPeopleNow(num_people, model)
@@ -1224,6 +1224,24 @@ function TribeInfo:setMyEnemy(tribe, bidirectional)
     if bidirectional == nil or bidirectional == true then
         set_players_enemies(tribe, self.num)
     end
+end
+
+---@param x integer
+---@param z integer
+---@overload fun(self: TribeInfo, coords: AnyCoord)
+function TribeInfo:setShamanDefendBasePos(x, z)
+    if z == nil then
+        x, z = Coord.getMapXZ(x--[[@as AnyCoord]])
+    end
+    SHAMAN_DEFEND(self.num, x, z, 1)
+end
+
+function TribeInfo:disableShamanDefendBasePos()
+    SHAMAN_DEFEND(self.num, 0, 0, 0)
+end
+
+function TribeInfo:getNumTepeesInAnyLevel()
+    return self.Buildings.Tepee:getNumInWorld() + self.Buildings.Tepee2:getNumInWorld() + self.Buildings.Tepee3:getNumInWorld()
 end
 
 

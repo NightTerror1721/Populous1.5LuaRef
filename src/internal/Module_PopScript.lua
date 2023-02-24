@@ -697,8 +697,8 @@ function FLASH_BUTTON(on, spell_model) end
 ---@param tribe Tribe
 function DESELECT_ALL_PEOPLE(tribe) end
 
----@param tribe Tribe
-function SET_AUTO_BUILD(tribe) end
+---@param on StateMode
+function SET_AUTO_BUILD(on) end
 
 ---@param tribe Tribe
 ---@param mana_amount integer

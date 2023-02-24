@@ -853,7 +853,7 @@ PersonWild = {}
 ---@field NumPeople integer
 ---@field NumBuildings integer
 ---@field NumBuildingMarkers integer
----@field NumBuildingsType integer[] length = 20
+---@field NumBuildingsOfType integer[] length = 20
 ---@field NumBuiltOrPartBuiltBuildingsOfType integer[] length = 20
 ---@field NumDeadSoulConverters integer
 ---@field NumGhostPeople integer

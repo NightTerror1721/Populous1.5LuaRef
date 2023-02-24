@@ -32,6 +32,7 @@ include("includes/coords.lua")
 
 
 local _gsi = gsi()
+local GetValueType = type
 
 
 Map = {}
@@ -342,6 +343,67 @@ function Map.search(shape, radius, coords, action)
     coords = Map.getCellIndex(coords)
     SearchMapCells(shape, 0, 0, radius, coords, action)
 end
+
+---@param type ThingType
+---@param model integer
+---@param x integer
+---@param z integer
+---@param radius? integer
+---@param shape Map.SearchShape?
+---@overload fun(type: ThingType, model: integer, coords: AnyCoord, radius?: integer, shape?: Map.SearchShape): Thing|nil
+---@return Thing|nil
+function Map.findFirstThingOf(type, model, x, z, radius, shape)
+    ---@param t Thing
+    local predicate = function(t)
+        if t.Type == type and t.Model == model then return false end
+        return true
+    end
+
+    local center
+    if GetValueType(x) ~= "number" then
+        shape = radius
+        radius = z
+        if not radius or radius < 2 then
+            local elem = Map.getElement(x--[[@as AnyCoord]])
+            if not elem then return nil end
+            return elem.MapWhoList:processList(predicate)
+        end
+
+        shape = shape and shape or Map.SearchShape.Circular
+
+        local result = nil
+        Map.search(shape, radius, x--[[@as AnyCoord]], function(elem)
+            local t = elem.MapWhoList:processList(predicate)
+            if t then
+                result = t
+                return false
+            end
+            return true
+        end)
+        return result
+    else
+        if not radius or radius < 2 then
+            local elem = Map.getElement(x, z)
+            if not elem then return nil end
+            return elem.MapWhoList:processList(predicate)
+        end
+
+        shape = shape and shape or Map.SearchShape.Circular
+
+        local result = nil
+        Map.search(shape, radius, Coord.get2DFromMapXZ(x, z), function(elem)
+            local t = elem.MapWhoList:processList(predicate)
+            if t then
+                result = t
+                return false
+            end
+            return true
+        end)
+        return result
+    end
+end
+
+
 
 
 
