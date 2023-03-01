@@ -981,12 +981,27 @@ end
 ---@param model PersonModel
 ---@param x integer
 ---@param z integer
----@overload fun(self: TribeInfo, model: PersonModel, coords: AnyCoord)
+---@return boolean
+---@overload fun(self: TribeInfo, model: PersonModel, coords: AnyCoord): boolean
 function TribeInfo:putPersonInDT(model, x, z)
     if z == nil then
         x, z = Coord.getMapXZ(x--[[@as AnyCoord]])
     end
-    PUT_PERSON_IN_DT(self.num, GetInternalFollowerModel(model), x, z)
+    --PUT_PERSON_IN_DT(self.num, GetInternalFollowerModel(model), x, z)
+    local tower = self.Buildings.DrumTower:findAtPos(x, z, 3)
+    if not tower then return false end
+
+    local personInfo = PersonInfo.get(self.num, model)
+    if not personInfo then return false end
+
+    local list, ok = personInfo:getListOrderedByIdleFirst(1)
+    if not ok then return false end
+
+    for _, person in ipairs(list) do
+        command_person_go_into_building(person, tower)
+        if person.State ~= PersonState.NavigationFailed then return true end
+    end
+    return false
 end
 
 TribeInfo.populateDrumTower = TribeInfo.putPersonInDT
@@ -1170,7 +1185,7 @@ end
 
 ---@param x integer
 ---@param z integer
----@overload fun(coords: AnyCoord)
+---@overload fun(self: TribeInfo, coords: AnyCoord)
 function TribeInfo:setComputerBasePos(x, z)
     if z == nil then
         x, z = Coord.getMapXZ(x--[[@as AnyCoord]])
@@ -1242,6 +1257,28 @@ end
 
 function TribeInfo:getNumTepeesInAnyLevel()
     return self.Buildings.Tepee:getNumInWorld() + self.Buildings.Tepee2:getNumInWorld() + self.Buildings.Tepee3:getNumInWorld()
+end
+
+---@param entry integer
+---@param spell SpellInfo|SpellModel
+---@param min_mana integer
+---@param frequency integer
+---@param min_people integer
+---@param base_spell boolean
+function TribeInfo:setSpellEntry(entry, spell, min_mana, frequency, min_people, base_spell)
+    if type(spell) ~= "number" then
+        spell = spell.model
+    end
+    spell = GetInternalSpellModel(spell)
+    SET_SPELL_ENTRY(
+        self.num,
+        entry,
+        spell,
+        min_mana,
+        frequency,
+        min_people,
+        base_spell and 1 or 0
+    )
 end
 
 

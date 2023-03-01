@@ -195,6 +195,67 @@ end
 
 
 
+local OrderIdle = {
+    [PersonState.WaitAtPoint] = true,
+    [PersonState.WaitFirstAppear] = true,
+    [PersonState.Spare] = true,
+    [PersonState.AwaitingCommand] = true,
+    [PersonState.Selected] = true,
+    [PersonState.ReselectWait] = true,
+    [PersonState.GotoBaseAndWait] = true
+}
+
+local OrderRunning = {
+    [PersonState.Wander] = true,
+    [PersonState.BaseWander] = true
+}
+
+local OrderOnHouse = {
+    [PersonState.WaitAtBuilding] = true
+}
+
+---@param people_required integer
+---@return Thing[] list, boolean minimum_required
+function PersonInfo:getListOrderedByIdleFirst(people_required)
+    local lists = {
+        [1] = {},
+        [2] = {},
+        [3] = {},
+        [4] = {}
+    }
+    local idle = lists[1]
+    local running = lists[2]
+    local onHouse = lists[3]
+    local others = lists[4]
+    ProcessGlobalSpecialList(self.tribe, PEOPLELIST, function(person)
+        if person.Model ~= self.model then return true end
+        local state = person.State
+        if OrderIdle[state] then
+            table.insert(idle, person)
+        elseif OrderRunning[state] then
+            table.insert(running, person)
+        elseif OrderOnHouse[state] and not is_person_in_drum_tower(person) then
+            table.insert(onHouse, person)
+        else
+            table.insert(others, person)
+        end
+        if #idle >= people_required then return false end
+        return true
+    end)
+
+    local result = idle
+    if #result >= people_required then return result, true end
+    for i = 2, 4, 1 do
+        for _, value in ipairs(lists[i]) do
+            table.insert(result, value)
+        end
+        if #result >= people_required then return result, true end
+    end
+    return result, false
+end
+
+
+
 
 ---@type PersonInfo[][]
 PersonInfo.TribesPersons = {}

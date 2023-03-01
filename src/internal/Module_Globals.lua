@@ -19,7 +19,7 @@ function people_type_info() end
 ---@return ThingTypeInfo
 function thing_type_info() end
 
----@return SpellsTypeInfo
+---@return SpellsTypeInfo[] length 31
 function spells_type_info() end
 
 ---@return BuildingTypeInfo

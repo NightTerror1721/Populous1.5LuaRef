@@ -562,11 +562,11 @@ function FLYBY_SET_EVENT_ANGLE(angle, start, duration) end
 ---@param duration integer
 function FLYBY_SET_EVENT_ZOOM(zoom, start, duration) end
 
----@param arg0 integer
----@param arg1 integer
+---@param x integer
+---@param z integer
 ---@param start integer
 ---@param duration integer
-function FLYBY_SET_EVENT_INT_POINT(arg0, arg1, start, duration) end
+function FLYBY_SET_EVENT_INT_POINT(x, z, start, duration) end
 
 ---@param x integer
 ---@param z integer
@@ -1081,10 +1081,10 @@ function PLAYERS_VEHICLE_OF_TYPE(tribe, type) end
 ---@return integer
 function SPELL_COST(spell) end
 
----@param arg0 integer
----@param arg1 integer
+---@param tribe Tribe
+---@param opponent Tribe
 ---@return integer
-function PLAYERS_KILLED_BY_PLAYER(arg0, arg1) end
+function PLAYERS_KILLED_BY_PLAYER(tribe, opponent) end
 
 ---@param tribe Tribe
 ---@return integer

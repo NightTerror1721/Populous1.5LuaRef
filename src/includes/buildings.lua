@@ -30,6 +30,7 @@ import(Module_Players)
 include("includes/flags.lua")
 include("includes/coords.lua")
 include("includes/things.lua")
+include("includes/map.lua")
 
 local _gsi = gsi()
 
@@ -228,6 +229,22 @@ function BuildingInfo:create(coords, orientation)
         end
     end
     return bldg
+end
+
+
+---@param x integer
+---@param z integer
+---@param radius integer
+---@return Thing|nil
+---@overload fun(self: BuildingInfo, coords: AnyCoord, radius: integer): Thing|nil
+function BuildingInfo:findAtPos(x, z, radius)
+    if type(x) ~= "number" then
+        radius = z
+        x, z = Coord.getMapXZ(x--[[@as AnyCoord]])
+    end
+    local building = Map.findFirstThingOf(ThingType.Building, self.model, x, z, radius, Map.SearchShape.Circular)
+    if building and building.Owner == self.tribe then return building end
+    return nil
 end
 
 

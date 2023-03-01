@@ -107,7 +107,38 @@ function remove_all_persons_commands(thing) end
 ---@param arg2 number
 function add_persons_command(thing, commands, arg2) end
 
----@param thing Thing
+---Command the person to go somewhere.
+---@param person Thing
 ---@param coords Coord2D
 ---@return number
-function command_person_go_to_coord2d(thing, coords) end
+function command_person_go_to_coord2d(person, coords) end
+
+---Command the person to enter a building.
+---@param person Thing
+---@param building Thing
+---@return number
+function command_person_go_into_building(person, building) end
+
+---Command the person to help construct a building.
+---@param person Thing
+---@param building Thing
+---@return number
+function command_person_build_building(person, building) end
+
+---Command the person to follow another person.
+---@param person Thing
+---@param person_idx integer
+---@return number
+function command_person_follow_person_idx(person, person_idx) end
+
+---Command the person to enter a vehicle.
+---@param person Thing
+---@param vehicle Thing
+---@return number
+function command_person_enter_vehicle(person, vehicle) end
+
+---Command the person to burn a building.
+---@param person Thing
+---@param vehicle Thing
+---@return number
+function command_person_sabotage_bldg_ptr(person, vehicle) end

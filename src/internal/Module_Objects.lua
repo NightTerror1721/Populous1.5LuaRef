@@ -1,6 +1,24 @@
 ---@meta
 
 
+---@alias SpecialList
+---| `PEOPLELIST`
+---| `BUILDINGLIST`
+---| `BUILDINGMARKERLIST`
+---| `FORMATIONSLIST`
+---| `BEACONSLIST`
+---| `WILDLIST`
+---| `FIGHTLIST`
+---| `PREFIGHTLIST`
+---| `SPECIALLIST`
+---| `AIRSHIPSLIST`
+---| `BOATLIST`
+---| `TRIGGERLIST`
+---| `TRIGGERHEADLIST`
+---| `SWAMPLIST`
+---| `WOODLIST`
+
+
 ---@param arg0 integer
 ---@return PlayerContainer
 function getPlayerContainer(arg0) end
@@ -61,16 +79,16 @@ function ProcessGlobalTypeList(thing_type, callback) end
 ---@return Thing
 function ProcessGlobalUsedList(callback) end
 
----@param thing_type integer
+---@param tribe Tribe
 ---@param callback fun(thing: Thing): boolean
 ---@return Thing
-function ProcessGlobalSpecialListAll(thing_type, callback) end
+function ProcessGlobalSpecialListAll(tribe, callback) end
 
----@param arg0 integer
----@param arg1 integer
+---@param tribe Tribe
+---@param list_type SpecialList
 ---@param callback fun(thing: Thing): boolean
 ---@return Thing
-function ProcessGlobalSpecialList(arg0, arg1, callback) end
+function ProcessGlobalSpecialList(tribe, list_type, callback) end
 
 ---@param thing Thing
 function uninit_thing(thing) end

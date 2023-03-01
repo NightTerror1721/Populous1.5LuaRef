@@ -25,7 +25,7 @@ if __DEFINED_KRAMPUS1721_INCLUDES_ALL then return end
 __DEFINED_KRAMPUS1721_INCLUDES_ALL = true
 
 
-import(Module_Game)
+--[[import(Module_Game)
 import(Module_DataTypes)
 import(Module_Map)
 import(Module_Objects)
@@ -44,6 +44,12 @@ import(Module_String)
 import(Module_Sound)
 import(Module_PopScript)
 import(Module_Person)
+import(Module_Commands)]]
+
+for moduleIdx = 0, 19, 1 do
+    import(moduleIdx)
+end
+
 
 include("includes/buildings.lua")
 include("includes/coords.lua")

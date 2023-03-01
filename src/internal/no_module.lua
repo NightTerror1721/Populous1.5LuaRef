@@ -98,6 +98,9 @@ Module_String = nil
 ---| `Module_Shapes` #Shapes Module
 ---| `Module_String` #String Module
 
+---@type integer
+MAX_NUM_MODLES = nil
+
 
 ---Imports a Populous Lua Module
 ---@param module PopModule

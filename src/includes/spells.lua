@@ -34,6 +34,7 @@ include("includes/things.lua")
 
 
 local _gsi = gsi()
+local _sti = spells_type_info()
 
 ---@param tribe Tribe
 local function GetPlayerThings(tribe)
@@ -44,6 +45,32 @@ end
 local function GetPlayer(tribe)
     return getPlayer(tribe)
 end
+
+
+local InternalSpellModel = {
+    [SpellModel.None] = INT_NO_SPECIFIC_SPELL,
+    [SpellModel.Burn] = INT_BURN,
+    [SpellModel.Blast] = INT_BLAST,
+    [SpellModel.LightningBolt] = INT_LIGHTNING_BOLT,
+    [SpellModel.Whirlwind] = INT_WHIRLWIND,
+    [SpellModel.InsectPlage] = INT_INSECT_PLAGUE,
+    [SpellModel.Invisibility] = INT_INVISIBILITY,
+    [SpellModel.Hypnotism] = INT_HYPNOTISM,
+    [SpellModel.Firestorm] = INT_FIRESTORM,
+    [SpellModel.GhostArmy] = INT_GHOST_ARMY,
+    [SpellModel.Erosion] = INT_EROSION,
+    [SpellModel.Swamp] = INT_SWAMP,
+    [SpellModel.LandBridge] = INT_LAND_BRIDGE,
+    [SpellModel.AngelOfDeath] = INT_ANGEL_OF_DEATH,
+    [SpellModel.Earthquake] = INT_EARTHQUAKE,
+    [SpellModel.Flatten] = INT_FLATTEN,
+    [SpellModel.Volcano] = INT_VOLCANO,
+    [SpellModel.ConvertWild] = INT_CONVERT,
+    [SpellModel.Armageddon] = INT_WRATH_OF_GOD,
+    [SpellModel.Shield] = INT_SHIELD,
+    [SpellModel.Bloodlust] = INT_BLOODLUST,
+    [SpellModel.Teleport] = INT_TELEPORT
+}
 
 
 ---@class SpellInfo
@@ -139,6 +166,29 @@ end
 ---@return Thing
 function SpellInfo:cast(coords)
     return CreateSpell(self.model, self.tribe, Coord.to3D(coords))
+end
+
+---@param self SpellInfo
+---@return integer
+---@overload fun(model: SpellModel): integer
+function SpellInfo.getCost(self)
+    if type(self) ~= "number" then
+        return _sti[self.model].Cost
+    end
+    return _sti[self].Cost
+end
+
+---@param self SpellInfo
+---@return InternalSpellModel
+---@overload fun(model: SpellModel): integer
+function SpellInfo.getInternalModel(self)
+    local value
+    if type(self) ~= "number" then
+        value = InternalSpellModel[self.model]
+    else
+        value = InternalSpellModel[self]
+    end
+    return value and value or INT_NO_SPECIFIC_SPELL
 end
 
 
