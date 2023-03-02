@@ -946,7 +946,7 @@ function PRAY_AT_HEAD(tribe, num_people, marker) end
 function I_HAVE_ONE_SHOT(tribe, type, model) end
 
 ---@param tribe Tribe
----@param person_type InternalFollowerModel
+---@param person_type PersonModel
 ---@param x integer
 ---@param z integer
 function PUT_PERSON_IN_DT(tribe, person_type, x, z) end

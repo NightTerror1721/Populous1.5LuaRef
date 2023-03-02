@@ -45,6 +45,10 @@ function Game.setAutoHouse(enabled)
     SET_AUTO_HOUSE(enabled and 1 or 0)
 end
 
+function Game.setAutoDialog(enabled)
+    AUTO_MESSAGES(enabled and 1 or 0)
+end
+
 
 function Game.win()
     TRIGGER_LEVEL_WON();
