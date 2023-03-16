@@ -96,7 +96,7 @@ end
 ---@param value number
 function DataEntryStack:pushNumber(value)
     if math.floor(value) == value then
-        self:pushInt(value)
+        self:pushInt(math.floor(value))
     else
         self:pushFloat(value)
     end
@@ -197,11 +197,6 @@ end
 
 local function IsValidType(value)
     return ValidTypes[type(value)] ~= nil
-end
-
----@param n number
-local function IsInteger(n)
-    return math.floor(n) == n
 end
 
 ---@param table table

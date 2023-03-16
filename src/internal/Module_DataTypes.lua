@@ -532,6 +532,14 @@ function FogOfWar:clear() end
 ---@return integer
 function FogOfWar:is_uncovered(elem) end
 
+---@param elem MapElement
+function FogOfWar.clear_perm_uncover_all_players(elem) end
+
+---@param tribe Tribe
+---@param elem MapElement
+function FogOfWar.clear_perm_uncover(tribe, elem) end
+
+
 ---@class GlobalSaveItems
 ---@field Level Level
 ---@field Counts NetworkCounts

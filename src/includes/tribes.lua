@@ -321,8 +321,7 @@ local TribeAIStatesMap = {
 ---@param model PersonModel|nil
 ---@return InternalFollowerModel
 local function GetInternalFollowerModel(model)
-    if model == nil or model < PersonModel.Brave or model > PersonModel.MedicineMan then return INT_NO_SPECIFIC_PERSON end
-    return model - 2 + INT_BRAVE
+    return model and model or PersonModel.None
 end
 
 
@@ -348,8 +347,7 @@ local InternalBuildingModelMap = {
 ---@param model BuildingModel|nil
 ---@return InternalBuildingModel
 local function GetInternalBuildingModel(model)
-    local value = InternalBuildingModelMap[model]
-    return value and value or INT_NO_SPECIFIC_BUILDING
+    return model and model or BuildingModel.None
 end
 
 
@@ -389,8 +387,7 @@ local InternalSpellModel = {
 ---@param model SpellModel
 ---@return InternalSpellModel
 local function GetInternalSpellModel(model)
-    local value = InternalSpellModel[model]
-    return value and value or INT_NO_SPECIFIC_SPELL
+    return model and model or SpellModel.None
 end
 
 
@@ -739,9 +736,9 @@ function TribeInfo:attack(
         params.targetType,
         SelectInternalModel(params.targetType, params.targetModel),
         params.damage,
-        params.spell1 == nil and INT_NO_SPECIFIC_SPELL or GetInternalSpellModel(params.spell1),
-        params.spell2 == nil and INT_NO_SPECIFIC_SPELL or GetInternalSpellModel(params.spell2),
-        params.spell3 == nil and INT_NO_SPECIFIC_SPELL or GetInternalSpellModel(params.spell3),
+        params.spell1 == nil and SpellModel.None or params.spell1,
+        params.spell2 == nil and SpellModel.None or params.spell2,
+        params.spell3 == nil and SpellModel.None or params.spell3,
         params.attackType == nil and AttackType.Normal or params.attackType,
         params.lookAfter == nil and 0 or (params.lookAfter--[[@as integer]]),
         params.marker1 == nil and -1 or (params.marker1--[[@as integer]]),
@@ -1273,7 +1270,7 @@ function TribeInfo:setSpellEntry(entry, spell, min_mana, frequency, min_people, 
     if type(spell) ~= "number" then
         spell = spell.model
     end
-    spell = GetInternalSpellModel(spell)
+    --spell = GetInternalSpellModel(spell)
     SET_SPELL_ENTRY(
         self.num,
         entry,

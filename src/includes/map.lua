@@ -288,17 +288,13 @@ function Map.getElemLavaNum(elem, num)
     return get_map_elem_lava_num(elem)
 end
 
----@param world_x integer
----@param world_z integer
+---@param x integer
+---@param z integer
 ---@return integer
 ---@overload fun(coords: AnyCoord): integer
-function Map.getAltitude(world_x, world_z)
-    if type(world_x) ~= "number" then
-        local c2d = Coord.to2D(world_x--[[@as AnyCoord]])
-        world_x = c2d.Xpos
-        world_z = c2d.Zpos
-    end
-    return point_altitude(world_x, world_z)
+function Map.getAltitude(x, z)
+    local elem = Map.getElement(x, z)
+    return elem.Alt
 end
 
 ---@param world_x integer
@@ -440,11 +436,30 @@ end
 
 ---@param tribe Tribe
 ---@param radius integer
+---@param elem MapElement
+function FOW.clearUncoverPermanentElement(tribe, radius, elem)
+    Map.search(Map.SearchShape.Circular, radius, Map.get2D(elem), function(e)
+        _gsi.FogOfWar.clear_perm_uncover(tribe, e)
+        return true
+    end)
+end
+
+---@param tribe Tribe
+---@param radius integer
 ---@param x integer
 ---@param z? integer
 ---@overload fun(coords: AnyCoord)
 function FOW.uncoverPermanent(tribe, radius, x, z)
     FOW.uncoverPermanentElement(tribe, radius, Map.getElement(x, z))
+end
+
+---@param tribe Tribe
+---@param radius integer
+---@param x integer
+---@param z? integer
+---@overload fun(coords: AnyCoord)
+function FOW.clearUncoverPermanent(tribe, radius, x, z)
+    FOW.clearUncoverPermanentElement(tribe, radius, Map.getElement(x, z))
 end
 
 ---@param radius integer
@@ -474,11 +489,28 @@ function FOW.uncoverPermanentForAllPlayersElement(radius, elem)
 end
 
 ---@param radius integer
+---@param elem MapElement
+function FOW.clearUncoverPermanentForAllPlayersElement(radius, elem)
+    Map.search(Map.SearchShape.Circular, radius, Map.get2D(elem), function(e)
+        _gsi.FogOfWar.clear_perm_uncover_all_players(e)
+        return true
+    end)
+end
+
+---@param radius integer
 ---@param x integer
 ---@param z? integer
 ---@overload fun(coords: AnyCoord)
 function FOW.uncoverPermanentForAllPlayers(radius, x, z)
     FOW.uncoverPermanentForAllPlayersElement(radius, Map.getElement(x, z))
+end
+
+---@param radius integer
+---@param x integer
+---@param z? integer
+---@overload fun(coords: AnyCoord)
+function FOW.clearUncoverPermanentForAllPlayers(radius, x, z)
+    FOW.clearUncoverPermanentForAllPlayersElement(radius, Map.getElement(x, z))
 end
 
 ---@param elem MapElement
